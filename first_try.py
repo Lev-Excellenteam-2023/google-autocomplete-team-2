@@ -32,21 +32,21 @@
 # search_inverted_index(index, search_term)
 
 
-import zipfile
-import os
-import re
-from collections import defaultdict
-
-file_name = 'archive.zip'
-
-# Get the directory where the Python script is located
-main_project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
-# current_dir = os.path.dirname(os.path.abspath(__file__))
-# print(current_dir)
-# print(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-# Path to the zip file (assuming it's in the same directory as the script)
-zip_file_path_1 = os.path.join(main_project_dir, file_name)
+# import zipfile
+# import os
+# import re
+# from collections import defaultdict
+#
+# file_name = 'archive.zip'
+#
+# # Get the directory where the Python script is located
+# main_project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+# # current_dir = os.path.dirname(os.path.abspath(__file__))
+# # print(current_dir)
+# # print(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+#
+# # Path to the zip file (assuming it's in the same directory as the script)
+# zip_file_path_1 = os.path.join(main_project_dir, file_name)
 
 
 # # Open the zip file
@@ -63,27 +63,27 @@ zip_file_path_1 = os.path.join(main_project_dir, file_name)
 #     print("-" * 40)  # Just a separator between files
 
 
-def build_inverted_index(zip_file_path):
-    inverted_index = defaultdict(list)
-    # Open the zip file
-    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-        # Iterate over each file in the zip
-        for file_name_0 in zip_ref.namelist():
-            # Only process text files
-            if file_name_0.endswith('.txt'):
-                with zip_ref.open(file_name_0) as file:
-                    content = file.read().decode('utf-8').splitlines()
-
-                    # Process each line in the file
-                    for line_number, line in enumerate(content):
-                        # Tokenize the line into words
-                        words = re.findall(r'\b\w+\b', line.lower())
-
-                        # Add each word to the inverted index with the file name and position
-                        for position, word in enumerate(words):
-                            inverted_index[word].append((file_name_0, line_number, position))
-
-    return inverted_index
+# def build_inverted_index(zip_file_path):
+#     inverted_index = defaultdict(list)
+#     # Open the zip file
+#     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+#         # Iterate over each file in the zip
+#         for file_name_0 in zip_ref.namelist():
+#             # Only process text files
+#             if file_name_0.endswith('.txt'):
+#                 with zip_ref.open(file_name_0) as file:
+#                     content = file.read().decode('utf-8').splitlines()
+#
+#                     # Process each line in the file
+#                     for line_number, line in enumerate(content):
+#                         # Tokenize the line into words
+#                         words = re.findall(r'\b\w+\b', line.lower())
+#
+#                         # Add each word to the inverted index with the file name and position
+#                         for position, word in enumerate(words):
+#                             inverted_index[word].append((file_name_0, line_number, position))
+#
+#     return inverted_index
 
 
 def search_consecutive_words(inverted_index, words):
