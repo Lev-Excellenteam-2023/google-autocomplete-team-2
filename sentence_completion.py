@@ -2,8 +2,7 @@ import os
 import re
 import time
 
-from build_inverted_index_trie import build_inverted_index_trie
-from init_inverted_idx import build_inverted_index
+from build_dict_database import build_dict
 
 file_name = 'archive.zip'
 
@@ -11,13 +10,22 @@ file_name = 'archive.zip'
 main_project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 
 # Path to the zip file (assuming it's in the same directory as the script)
-zip_file_path = os.path.join(main_project_dir, file_name)
+file_path = os.path.join(main_project_dir, file_name)
 
 
 def sentence_completion(zip_file_path):
+    # try:
+    #     inverted_index = build_inverted_index_trie(zip_file_path)
+    #     if inverted_index is None:
+    #         print("Failed to build the inverted index. Exiting...")
+    #         return
+    # except Exception as e:
+    #     print(e)
+    #     return
+
     try:
-        inverted_index = build_inverted_index_trie(zip_file_path)
-        if inverted_index is None:
+        dict_database = build_dict(zip_file_path)
+        if dict is None:
             print("Failed to build the inverted index. Exiting...")
             return
     except Exception as e:
@@ -26,23 +34,30 @@ def sentence_completion(zip_file_path):
 
     while True:
         # Get sub sentence from the user
-        words = get_user_input()
+        search_query = get_user_input()
 
-        if len(words) == 1 and words[0] == 'exit':
+        if search_query == 'exit':
             print("Exiting...")
             break
 
         # Measure the time taken to search
         start_time = time.time()  # TODO: del
 
-        for word in words:
-            found, references = inverted_index.search_and_retrieve(word)
-            if found:
-                print(f"Found {len(references)} references for the word '{word}':")
+        found_any = False
+        found = 0
+
+        for key in dict_database:
+            if search_query in key:
+                found += 1
+                references = dict_database[key]
+                found_any = True
+                # print(f"Found {len(references)} references for the phrase '{search_query}' in '{key}':")
                 # for ref in references:
-                #     print(f"File: {ref.file_name}, Line: {ref.line_number}, Position: {ref.char_position}")
-            else:
-                print(f"The word '{word}' was not found in the index.")
+                #     print(f"File: {ref.file_name}, Line: {ref.line_number}, Full sentence: {ref.full_sentence}")
+        if not found_any:
+            print(f"The phrase '{search_query}' was not found in the index.")
+
+        print(f"found - {found} results.")
 
         end_time = time.time()  # TODO: del
         search_time = end_time - start_time  # TODO: del
@@ -54,7 +69,7 @@ def get_user_input():
     cleaned_input = re.sub(r'[^a-z0-9\s]', '', user_input)
     words = re.findall(r'[a-z0-9]+', cleaned_input)
     print(words)
-    return words
+    return ' '.join(words)
 
 
 # def sentence_completion_first_try(zip_file_path):
@@ -88,4 +103,4 @@ def get_user_input():
 
 
 if __name__ == "__main__":
-    sentence_completion(zip_file_path)
+    sentence_completion(file_path)

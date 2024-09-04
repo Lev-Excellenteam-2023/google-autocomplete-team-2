@@ -1,6 +1,7 @@
 import re
 import time
 import zipfile
+from collections import defaultdict
 
 from inverted_index_trie import InvertedIndexTrie
 from position import Position
@@ -48,3 +49,5 @@ def insert_word_to_trie(trie, word, file_name, line_number, char_position):
         for end in range(start + 1, len(word) + 1):
             trie.insert(word[start:end], Position(file_name, line_number, char_position + start))
             # TODO: maby not build Position, only send the data
+
+
