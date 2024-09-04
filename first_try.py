@@ -32,6 +32,23 @@
 # search_inverted_index(index, search_term)
 
 
+<<<<<<< HEAD
+import zipfile
+import os
+import re
+from collections import defaultdict
+import cProfile
+file_name = 'archive.zip'
+
+# Get the directory where the Python script is located
+main_project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+# print(current_dir)
+# print(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Path to the zip file (assuming it's in the same directory as the script)
+zip_file_path_1 = os.path.join(main_project_dir, file_name)
+=======
 # import zipfile
 # import os
 # import re
@@ -47,6 +64,7 @@
 #
 # # Path to the zip file (assuming it's in the same directory as the script)
 # zip_file_path_1 = os.path.join(main_project_dir, file_name)
+>>>>>>> 540da43f4f208e9026342efc0624e8690bf2af23
 
 
 # # Open the zip file
@@ -119,11 +137,12 @@ def search_consecutive_words(inverted_index, words):
 inverted = build_inverted_index(zip_file_path_1)
 # print(inverted.get('all'))
 
-sen = "all of the"
+sen = "all"
 search_words = sen.split(" ")
 print(search_words)
 matches = search_consecutive_words(inverted, search_words)
 print(len(matches))
+cProfile.run('main()')
 
 # # print files structure:
 # import os
