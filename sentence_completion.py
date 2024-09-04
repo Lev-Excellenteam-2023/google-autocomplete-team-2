@@ -12,6 +12,7 @@ file_path = os.path.join(main_project_dir, file_name)
 
 
 def sentence_completion(zip_file_path):
+    print("Loading the files and preparing the system...")
     try:
         dict_database = Dictionary()
         dict_database.build_dict(zip_file_path)
@@ -22,34 +23,41 @@ def sentence_completion(zip_file_path):
         print(e)
         return
 
+    print("The system is ready. Enter your text:")
+    original_inp = ''
+
     while True:
         # Get sub sentence from the user
-        original_inp, search_query = get_user_input()
+        original_inp, search_query = get_user_input(original_inp)
 
-        if search_query == 'exit':
+        if original_inp.endswith('#EXIT#'):
             print("Exiting...")
             break
+        elif original_inp.endswith("#"):
+            original_inp = ''
+            continue
 
         # Measure the time taken to search
         start_time = time.time()  # TODO: del
 
         matches = dict_database.get_best_k_completions(search_query)
 
+        print(f"Here are {len(matches)} suggestions")
         for i, m in enumerate(matches, 1):
             print(f"{i}. {m}")
 
-        # print(f"found - {len(matches)} results.")  # TODO: del
         end_time = time.time()  # TODO: del
         search_time = end_time - start_time  # TODO: del
         print(f"Search took {search_time:.4f} seconds\n")  # TODO: del
 
 
-def get_user_input():
-    user_input = input("Enter a word to search (or type 'exit' to quit): ").strip().lower()
+def get_user_input(user_input=''):
+    print(f"{user_input}", end='', flush=True)
+    new_input = input()
+    user_input += new_input.strip() if not new_input.startswith(" ") else " " + new_input.strip()
     return user_input, Dictionary.normalize_line(user_input)
 
 
 if __name__ == "__main__":
     sentence_completion(file_path)
     # cProfile.run('sentence_completion(file_path)')
-

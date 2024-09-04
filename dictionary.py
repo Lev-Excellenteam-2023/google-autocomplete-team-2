@@ -49,7 +49,7 @@ class Dictionary:
                     matches.append(AutoCompleteData(pos.full_sentence, pos.file_name, pos.line_number, 0))
 
         matches.sort(key=lambda x: x.completed_sentence)
-        matches.sort(key=lambda x: x.completed_sentence.lower())
+        # matches.sort(key=lambda x: x.completed_sentence.lower())
         print(f"found - {len(matches)} results.")  # TODO: del
 
         # return matches
