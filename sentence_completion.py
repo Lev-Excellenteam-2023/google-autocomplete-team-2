@@ -1,10 +1,10 @@
 import os
 import time
 import cProfile
-
 from dictionary import Dictionary
 
 file_name = 'archive.zip'
+# file_name = 'aa.zip'
 # Get the directory where the Python script is located
 main_project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 # Path to the zip file (assuming it's in the same directory as the script)
@@ -23,7 +23,7 @@ def sentence_completion(zip_file_path):
         print(e)
         return
 
-    print("The system is ready. Enter your text:")
+    print("The system is ready. Enter your text (#EXIT# to finish):")
     original_inp = ''
 
     while True:
@@ -48,7 +48,7 @@ def sentence_completion(zip_file_path):
 
         end_time = time.time()  # TODO: del
         search_time = end_time - start_time  # TODO: del
-        print(f"Search took {search_time:.4f} seconds\n")  # TODO: del
+        print(f"Search took {search_time:.4f} seconds")  # TODO: del
 
 
 def get_user_input(user_input=''):

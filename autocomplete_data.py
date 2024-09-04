@@ -6,4 +6,4 @@ class AutoCompleteData:
         self.score = score
 
     def __str__(self):
-        return f"{self.completed_sentence} ({self.source} {self.line_number})"
+        return f"{self.completed_sentence} ({self.source} {self.line_number}), {self.score}"
