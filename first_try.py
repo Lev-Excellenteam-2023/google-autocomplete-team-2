@@ -36,7 +36,7 @@ import zipfile
 import os
 import re
 from collections import defaultdict
-
+import cProfile
 file_name = 'archive.zip'
 
 # Get the directory where the Python script is located
@@ -119,11 +119,12 @@ def search_consecutive_words(inverted_index, words):
 inverted = build_inverted_index(zip_file_path_1)
 # print(inverted.get('all'))
 
-sen = "all of the"
+sen = "all"
 search_words = sen.split(" ")
 print(search_words)
 matches = search_consecutive_words(inverted, search_words)
 print(len(matches))
+cProfile.run('main()')
 
 # # print files structure:
 # import os
